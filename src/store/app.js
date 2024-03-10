@@ -2,6 +2,8 @@
 import fetchWrapper from '@/helpers/fetchWrapper';
 import { defineStore } from 'pinia';
 
+const baseURL = process.env.VUE_APP_API_BASE_URL || 'http://127.0.0.1:8000';
+
 export const useAppStore = defineStore('appStore', {
     state: () => ({
         documents: [],
@@ -15,7 +17,7 @@ export const useAppStore = defineStore('appStore', {
                 const formData = new FormData();
                 formData.append('question', question);
 
-                const response = await fetchWrapper('http://127.0.0.1:8000/api/chat/', {
+                const response = await fetchWrapper(`${baseURL}/api/chat/`, {
                     method: 'POST',
                     body: formData
                 });
@@ -43,7 +45,7 @@ export const useAppStore = defineStore('appStore', {
             };
 
             try {
-                const response = await fetchWrapper('http://127.0.0.1:8000/api/evaluations/', {
+                const response = await fetchWrapper(`${baseURL}/api/evaluations/`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -65,7 +67,7 @@ export const useAppStore = defineStore('appStore', {
 
         async fetchUserDocuments() {
             try {
-                const response = await fetchWrapper('http://127.0.0.1:8000/api/documents/', {
+                const response = await fetchWrapper(`${baseURL}/api/documents/`, {
                     method: 'GET',
                 });
 
@@ -88,7 +90,7 @@ export const useAppStore = defineStore('appStore', {
                 formData.append('title', title);
                 formData.append('file', file);
 
-                const response = await fetchWrapper('http://127.0.0.1:8000/api/upload-document/', {
+                const response = await fetchWrapper(`${baseURL}/api/upload-document/`, {
                     method: 'POST',
                     body: formData
                 });

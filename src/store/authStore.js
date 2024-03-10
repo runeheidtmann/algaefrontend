@@ -1,6 +1,8 @@
 import fetchWrapper from '@/helpers/fetchWrapper';
 import { defineStore } from 'pinia';
 
+const baseURL = process.env.VUE_APP_API_BASE_URL || 'http://127.0.0.1:8000';
+
 export const useAuthStore = defineStore('auth', {
     state: () => ({
         accessToken: localStorage.getItem('accessToken') || null,
@@ -13,7 +15,7 @@ export const useAuthStore = defineStore('auth', {
     actions: {
         async login(username, password) {
             try {
-                const response = await fetch('http://127.0.0.1:8000/api/token/', {
+                const response = await fetch(`${baseURL}/api/token/`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -41,7 +43,7 @@ export const useAuthStore = defineStore('auth', {
         },
         async signup(username, first_name, last_name, email, password) {
             try {
-                const response = await fetch('http://127.0.0.1:8000/api/register/', {
+                const response = await fetch(`${baseURL}/api/register/`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -73,7 +75,7 @@ export const useAuthStore = defineStore('auth', {
         
         async fetchUserData() {
             try {
-                const response = await fetchWrapper('http://127.0.0.1:8000/api/userdata/', {
+                const response = await fetchWrapper(`${baseURL}/api/userdata/`, {
                     method: 'GET',
                     // No need to set the 'Authorization' header manually,
                     // as fetchWrapper will handle it
