@@ -41,7 +41,7 @@ export const useAppStore = defineStore('appStore', {
                 user_question_enriched: 'Sample q Enriched',
                 LLM_answer: this.conversation['question'],
                 user_rating: user_rating,
-                LLM: 2
+                LLM: 1
             };
 
             try {
