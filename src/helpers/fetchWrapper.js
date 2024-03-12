@@ -25,7 +25,7 @@ function isTokenExpired(token) {
 }
 
 async function refreshAccessToken(refreshToken) {
-    const baseURL = process.env.VUE_APP_API_BASE_URL;
+    const baseURL = import.meta.env.VITE_API_BASE_URL
     try {
         const response = await fetch(`${baseURL}/api/token/refresh/`, {
             method: 'POST',
