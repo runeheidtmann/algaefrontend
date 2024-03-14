@@ -24,13 +24,6 @@
           value="Algue Chat"
         ></v-list-item
       ></router-link>
-      <router-link to="/evaluate" class="routerlink">
-        <v-list-item
-          prepend-icon="mdi-certificate"
-          title="Evaluate models"
-          value="Evaluate Chatmodels"
-        ></v-list-item
-      ></router-link>
       <router-link to="/docs" class="routerlink">
         <v-list-item
           prepend-icon="mdi-file-document"
