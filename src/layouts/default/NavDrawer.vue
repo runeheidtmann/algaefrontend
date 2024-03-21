@@ -27,8 +27,8 @@
       <router-link to="/docs" class="routerlink">
         <v-list-item
           prepend-icon="mdi-file-document"
-          title="Manage Documents"
-          value="Manage Documents"
+          title="Add Documents"
+          value="Add Documents"
         ></v-list-item
       ></router-link>
     </v-list>

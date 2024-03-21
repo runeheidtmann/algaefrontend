@@ -29,7 +29,7 @@
                   
                 </div>
 
-                <RatingComponent />
+                <RatingComponent :LLM="1"/>
               </div>
             </div>
             <div v-else>
@@ -43,26 +43,26 @@
           
         </v-col>
         <v-col cols="6" class="d-flex flex-column">
-          <div v-if="conversation.question">
+          <div v-if="rag_conversation.question">
             <v-card class="flex-grow-1 rounded-card bg-grey-lighten-3 pa-7 ml-5">
             <div class="d-flex w-100 mb-5 text-body-1">
               <div class="mr-5">RU</div>
               <div>
                 <div class="font-weight-medium">You</div>
                 <div>
-                  {{ conversation.question }}
+                  {{ rag_conversation.question }}
                 </div>
               </div>
             </div>
             <div
-              v-if="conversation.answer"
+              v-if="rag_conversation.answer"
               class="d-flex w-100 mb-5 text-body-1"
             >
               <div class="mr-5">AB</div>
               <div>
                 <div class="font-weight-medium">AlgaeBrain</div>
                 <div>
-                  {{ conversation.answer }}
+                  {{ rag_conversation.answer }}
                   <br />
                   <v-dialog width="800">
                     <template v-slot:activator="{ props }">
@@ -75,14 +75,14 @@
                     </template>
 
                     <template v-slot:default="{ isActive }">
-                      <v-card :title="conversation.docs[0][1][1].source">
+                      <v-card :title="rag_conversation.docs[2][1][1].source">
                         <v-card-text>
-                          {{ conversation.docs[2][0][1] }}
+                          {{ rag_conversation.docs[2][0][1] }}
                         </v-card-text>
                         <v-card-text>
                           <a href="#"
-                            >{{ conversation.docs[2][1][1].source }}: page
-                            {{ conversation.docs[0][1][1].page }}</a
+                            >{{ rag_conversation.docs[2][1][1].source }}: page
+                            {{ rag_conversation.docs[2][1][1].page }}</a
                           >
                         </v-card-text>
                         <v-card-actions>
@@ -98,7 +98,7 @@
                   </v-dialog>
                 </div>
 
-                <RatingComponent />
+                <RatingComponent :LLM="2" />
               </div>
             </div>
             <div v-else>
@@ -174,6 +174,12 @@ export default {
     conversation() {
       if (this.appStore) {
         return this.appStore.conversation;
+      }
+      return {};
+    },
+    rag_conversation() {
+      if (this.appStore) {
+        return this.appStore.rag_conversation;
       }
       return {};
     },

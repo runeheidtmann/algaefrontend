@@ -8,40 +8,66 @@ export const useAppStore = defineStore('appStore', {
     state: () => ({
         documents: [],
         conversation: {},
+        rag_conversation: {},
     }),
     actions: {
         async sendChatQuery(question) {
-            this.conversation = { "question": question, "answer": "" }
-
+            // Initialize the conversation with the question and an empty answer
+            this.conversation = { "question": question, "answer": "" };
+            this.rag_conversation = { "question": question, "answer": "" };
+   
             try {
+                // Prepare the FormData object with the question
                 const formData = new FormData();
                 formData.append('question', question);
-
-                const response = await fetchWrapper(`${baseURL}/api/chat/`, {
+        
+                // First API call to /api/chat/
+                const chatResponse = await fetchWrapper(`${baseURL}/api/chat/`, {
                     method: 'POST',
                     body: formData
                 });
-
-                if (!response.ok) {
-                    throw new Error(`Error: ${response.statusText}`);
+        
+                // Check if the response is ok, otherwise throw an error
+                if (!chatResponse.ok) {
+                    throw new Error(`Error: ${chatResponse.statusText}`);
                 }
-                const data = await response.json();
-                console.log(data)
-                this.conversation = data;
-
-
+        
+                // Parse the response data from the first endpoint
+                const chatData = await chatResponse.json();
+        
+                // Second API call to /api/ragchat with the same question
+                const ragchatResponse = await fetchWrapper(`${baseURL}/api/ragchat/`, {
+                    method: 'POST',
+                    body: formData // Reusing the FormData object
+                });
+        
+                // Check if the ragchat response is ok, otherwise throw an error
+                if (!ragchatResponse.ok) {
+                    throw new Error(`Error: ${ragchatResponse.statusText}`);
+                }
+        
+                // Parse the response data from the second endpoint
+                const ragchatData = await ragchatResponse.json();
+                console.log(ragchatData)
+                // Optional: Decide how to combine or choose between the responses
+                // For this example, we'll just store the chatData as the conversation.
+                // You might want to merge the responses or choose one based on some criteria.
+                this.rag_conversation = ragchatData;
+                this.conversation = chatData;
+                
+         
             } catch (error) {
                 console.error('Error chatting:', error);
                 throw error;
             }
         },
-        async sendEvaluation(user_rating) {
+        async sendEvaluation(user_rating,LLM) {
             const evaluationData = {
                 user_question_raw: this.conversation['question'],
                 user_question_enriched: 'Sample q Enriched',
                 LLM_answer: this.conversation['question'],
                 user_rating: user_rating,
-                LLM: 1
+                LLM: LLM
             };
 
             try {

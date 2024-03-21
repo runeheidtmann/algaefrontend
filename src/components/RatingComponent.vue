@@ -24,6 +24,12 @@ import { useAppStore } from "@/store/app";
 
 export default {
   name: "RatingComponent",
+  props: {
+    LLM: {
+      type: Object, // Assuming LLM is an object, change this type as needed
+      required: true,
+    },
+  },
   data() {
     return {
       ratingSend: false,
@@ -38,7 +44,7 @@ export default {
       try {
         if (this.rating != null) {
           this.ratingSend = true;
-          appStore.sendEvaluation(this.rating);
+          appStore.sendEvaluation(this.rating,this.LLM);
         }
       } catch (error) {
         this.errorMessage = "Some error in with the send question-thingy";
