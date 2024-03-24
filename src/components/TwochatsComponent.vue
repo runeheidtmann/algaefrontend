@@ -4,109 +4,116 @@
       <!-- Adjusted main section content -->
       <!-- First row with 2 columns each containing a card -->
       <v-row class="h-80 w-100 justify-space-between">
-        <v-col cols="6" class="d-flex flex-column ">
+        <v-col cols="6" class="d-flex flex-column">
           <div v-if="conversation.question">
-            <v-card class="flex-grow-1 rounded-card bg-grey-lighten-3 pa-7 mr-5">
-            <div class="d-flex w-100 mb-5 text-body-1">
-              <div class="mr-5">RU</div>
-              <div>
-                <div class="font-weight-medium">You</div>
-                <div>
-                  {{ conversation.question }}
-                </div>
-              </div>
-            </div>
-            <div
-              v-if="conversation.answer"
-              class="d-flex w-100 mb-5 text-body-1"
+            <v-card
+              class="flex-grow-1 rounded-card bg-grey-lighten-3 pa-7 mr-5"
             >
-              <div class="mr-5">AB</div>
-              <div>
-                <div class="font-weight-medium">AlgaeBrain</div>
+              <div class="d-flex w-100 mb-5 text-body-1">
+                <div class="mr-5">RU</div>
                 <div>
-                  {{ conversation.answer }}
-                  <br />
-                  
+                  <div class="font-weight-medium">You</div>
+                  <div>
+                    {{ conversation.question }}
+                  </div>
                 </div>
-
-                <RatingComponent :LLM="1"/>
               </div>
-            </div>
-            <div v-else>
-              <v-progress-linear
-                indeterminate
-                color="yellow-darken-2"
-              ></v-progress-linear>
-            </div>
-          </v-card>
+              <div
+                v-if="conversation.answer"
+                class="d-flex w-100 mb-5 text-body-1"
+              >
+                <div class="mr-5">AB</div>
+                <div>
+                  <div class="font-weight-medium">AlgaeBrain</div>
+                  <div>
+                    {{ conversation.answer }}
+                    <br />
+                  </div>
+
+                  <RatingComponent :LLM="1" />
+                </div>
+              </div>
+              <div v-else>
+                <v-progress-linear
+                  indeterminate
+                  color="yellow-darken-2"
+                ></v-progress-linear>
+              </div>
+            </v-card>
           </div>
-          
         </v-col>
         <v-col cols="6" class="d-flex flex-column">
           <div v-if="rag_conversation.question">
-            <v-card class="flex-grow-1 rounded-card bg-grey-lighten-3 pa-7 ml-5">
-            <div class="d-flex w-100 mb-5 text-body-1">
-              <div class="mr-5">RU</div>
-              <div>
-                <div class="font-weight-medium">You</div>
+            <v-card
+              class="flex-grow-1 rounded-card bg-grey-lighten-3 pa-7 ml-5"
+            >
+              <div class="d-flex w-100 mb-5 text-body-1">
+                <div class="mr-5">RU</div>
                 <div>
-                  {{ rag_conversation.question }}
+                  <div class="font-weight-medium">You</div>
+                  <div>
+                    {{ rag_conversation.question }}
+                  </div>
                 </div>
               </div>
-            </div>
-            <div
-              v-if="rag_conversation.answer"
-              class="d-flex w-100 mb-5 text-body-1"
-            >
-              <div class="mr-5">AB</div>
-              <div>
-                <div class="font-weight-medium">AlgaeBrain</div>
+              <div
+                v-if="rag_conversation.answer"
+                class="d-flex w-100 mb-5 text-body-1"
+              >
+                <div class="mr-5">AB</div>
                 <div>
-                  {{ rag_conversation.answer }}
-                  <br />
-                  <v-dialog width="800">
-                    <template v-slot:activator="{ props }">
+                  <div class="font-weight-medium">AlgaeBrain</div>
+                  <div class="mb-4">
+                    {{ rag_conversation.answer }}
+                    <br />
+                  </div>
+                  <div>
+                    <!-- Iterating over the array to create links -->
+                    <div
+                      v-for="(item, index) in rag_conversation.docs.context"
+                      :key="index"
+                      
+                    >
                       <a
-                        v-bind="props"
-                        text="[>_source]"
-                        class="text-indigo-darken-4"
+                        @click="openDialog(index)"
+                        class="text-primary"
+                        style="cursor: pointer"
                       >
-                      </a>
-                    </template>
+                        Source #{{ index + 1 }}</a>
+                    </div>
 
-                    <template v-slot:default="{ isActive }">
-                      <v-card :title="rag_conversation.docs[2][1][1].source">
+                    <!-- Dialog -->
+                    <v-dialog v-model="dialog" width="800">
+                      <v-card v-if="activeItem">
+                        <v-card-title>
+                          {{ activeItem[1][1].source }}
+                        </v-card-title>
                         <v-card-text>
-                          {{ rag_conversation.docs[2][0][1] }}
+                          {{ activeItem[0][1] }}
                         </v-card-text>
                         <v-card-text>
-                          <a href="#"
-                            >{{ rag_conversation.docs[2][1][1].source }}: page
-                            {{ rag_conversation.docs[2][1][1].page }}</a
-                          >
+                          <a href="#">
+                            {{ activeItem[1][1].source }}: page
+                            {{ activeItem[1][1].page }}
+                          </a>
                         </v-card-text>
                         <v-card-actions>
                           <v-spacer></v-spacer>
-
-                          <v-btn
-                            text="Close Dialog"
-                            @click="isActive.value = false"
-                          ></v-btn>
+                          <v-btn text @click="closeDialog">Close Dialog</v-btn>
                         </v-card-actions>
                       </v-card>
-                    </template>
-                  </v-dialog>
-                </div>
+                    </v-dialog>
+                  </div>
 
-                <RatingComponent :LLM="2" />
+                  <RatingComponent :LLM="2" />
+                </div>
               </div>
-            </div>
-            <div v-else>
-              <v-progress-linear
-                indeterminate
-                color="yellow-darken-2"
-              ></v-progress-linear>
-            </div>
+              <div v-else>
+                <v-progress-linear
+                  indeterminate
+                  color="yellow-darken-2"
+                ></v-progress-linear>
+              </div>
             </v-card>
           </div>
         </v-col>
@@ -144,6 +151,8 @@ export default {
       loading: false,
       chatInput: "",
       appStore: null,
+      dialog: false,
+      activeItemIndex: null,
     };
   },
   methods: {
@@ -161,6 +170,13 @@ export default {
     resetState() {
       this.appStore.resetConversation(); // Assuming this method resets your state
     },
+    openDialog(index) {
+      this.activeItemIndex = index;
+      this.dialog = true; // Open the dialog
+    },
+    closeDialog() {
+      this.dialog = false; // Close the dialog
+    },
   },
 
   beforeRouteLeave(to, from, next) {
@@ -171,6 +187,12 @@ export default {
     this.appStore = useAppStore();
   },
   computed: {
+    activeItem() {
+      if (this.activeItemIndex !== null) {
+        return this.rag_conversation.docs.context[this.activeItemIndex];
+      }
+      return null;
+    },
     conversation() {
       if (this.appStore) {
         return this.appStore.conversation;
