@@ -61,11 +61,12 @@ export const useAppStore = defineStore('appStore', {
                 throw error;
             }
         },
-        async sendEvaluation(user_rating,LLM) {
+        async sendEvaluation(user_rating, LLM) {
+
             const evaluationData = {
                 user_question_raw: this.conversation['question'],
-                user_question_enriched: 'Sample q Enriched',
-                LLM_answer: this.conversation['question'],
+                user_question_enriched: LLM == 2 ? this.rag_conversation['prompt'] : 'Not enriched',
+                LLM_answer: this.conversation['answer'],
                 user_rating: user_rating,
                 LLM: LLM
             };
