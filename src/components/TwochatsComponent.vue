@@ -98,7 +98,7 @@
                         <v-card-text>
                          <b> Download source:</b><br />
                           <a href="#">
-                            {{ activeItem[1][1].source }}: page
+                            {{ "https://algaefiles.ams3.digitaloceanspaces.com/"+activeItem[1][1].source }}: page
                             {{ activeItem[1][1].page }}
                           </a>
                         </v-card-text>
