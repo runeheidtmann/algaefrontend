@@ -97,10 +97,10 @@
                         </v-card-text>
                         <v-card-text>
                          <b> Download source:</b><br />
-                          <a href="#">
-                            {{ "https://algaefiles.ams3.digitaloceanspaces.com/"+activeItem[1][1].source }}: page
-                            {{ activeItem[1][1].page }}
-                          </a>
+                          <a v-if="activeItem[1][1].source" :href="'https://algaefiles.ams3.digitaloceanspaces.com/' + activeItem[1][1].source" target="__blank"> {{ activeItem[1][1].title }}: page
+                            {{ activeItem[1][1].page }} </a>
+                          <a v-else :href="activeItem[1][1].URL" target="__blank"> {{ activeItem[1][1].title }} @
+                            {{ activeItem[1][1].authors }} </a>
                         </v-card-text>
                         <v-card-actions>
                           <v-spacer></v-spacer>

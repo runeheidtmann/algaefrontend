@@ -9,6 +9,7 @@
       <v-card-text class="text-center text-h6 text-md-h5 text-lg-h5 mb-8">
         Log in to your account
       </v-card-text>
+      <v-alert v-if="errorMessage" color="error" :text="errorMessage" class="mb-5"></v-alert>
       <div class="text-subtitle-1 text-medium-emphasis">Username</div>
 
       <v-text-field
@@ -83,6 +84,7 @@ export default {
     username: null,
     email: null,
     password: null,
+    errorMessage: "",
     emailRules: [
       (v) => {
         return !!v || "E-mail is required";
