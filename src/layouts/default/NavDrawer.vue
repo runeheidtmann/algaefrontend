@@ -24,13 +24,6 @@
           value="Algue Chat"
         ></v-list-item
       ></router-link>
-      <router-link to="/docs" class="routerlink">
-        <v-list-item
-          prepend-icon="mdi-file-document"
-          title="Add Documents"
-          value="Add Documents"
-        ></v-list-item
-      ></router-link>
     </v-list>
   </v-navigation-drawer>
 </template>

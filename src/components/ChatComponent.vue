@@ -2,7 +2,7 @@
   <v-container class="d-flex flex-column fill-height justify-between w-50">
     <div v-if="conversation.question">
       <div class="d-flex w-100 mb-5 text-body-1">
-        <div class="mr-5">RU</div>
+        <div class="mr-5">{{user_initials}}</div>
         <div>
           <div class="font-weight-medium">You</div>
           <div>
@@ -120,6 +120,9 @@ export default {
         return this.appStore.conversation;
       }
       return {};
+    },
+    user_initials(){
+      return "RUH"
     },
   },
 };

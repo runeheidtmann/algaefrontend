@@ -26,15 +26,6 @@ const routes = [
         // which is lazy-loaded when the route is visited.
         component: () => import(/* webpackChunkName: "home" */ '@/views/Evaluate.vue'),
       },
-      {
-        path: '/docs',
-        name: 'Docs',
-        meta: { requiresAuth: true },
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
-        component: () => import(/* webpackChunkName: "home" */ '@/views/Docs.vue'),
-      },
     ],
   },
   {
@@ -71,7 +62,11 @@ const routes = [
       },
     ],
   },
-
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    component: () => import(/* webpackChunkName: "home" */ '@/views/NotFound.vue'),
+  },
 ]
 
 const router = createRouter({
