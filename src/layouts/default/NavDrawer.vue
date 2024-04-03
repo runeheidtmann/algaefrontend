@@ -7,11 +7,12 @@
   >
     <template v-slot:append>
       <v-list-item
-       
         lines="two"
         prepend-icon="mdi-account-outline"
         subtitle="Logged in"
-      >  {{ userData?.username }}</v-list-item>
+      >
+        {{ userData?.username }}</v-list-item
+      >
     </template>
 
     <v-divider class="border-0"></v-divider>
@@ -24,6 +25,13 @@
           value="Algue Chat"
         ></v-list-item
       ></router-link>
+      <router-link to="/tutorial" class="routerlink"
+        ><v-list-item
+          prepend-icon="mdi-help-circle"
+          title="Tutorial"
+          value="Tutorial"
+        ></v-list-item
+      ></router-link>
     </v-list>
   </v-navigation-drawer>
 </template>
@@ -32,7 +40,7 @@ import { useAuthStore } from "@/store/authStore";
 
 export default {
   data: () => ({
-    username: '',
+    username: "",
     first_name: null,
     last_name: null,
     email: null,
@@ -62,8 +70,8 @@ export default {
   computed: {
     userData() {
       const authStore = useAuthStore();
-      return authStore.userData
-    }
+      return authStore.userData;
+    },
   },
   mounted() {
     const authStore = useAuthStore();
