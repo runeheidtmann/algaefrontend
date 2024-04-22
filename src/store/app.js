@@ -66,7 +66,7 @@ export const useAppStore = defineStore('appStore', {
             const evaluationData = {
                 user_question_raw: this.conversation['question'],
                 user_question_enriched: LLM == 2 ? this.rag_conversation['prompt'] : 'Not enriched',
-                LLM_answer: this.conversation['answer'],
+                LLM_answer: LLM == 2 ? this.rag_conversation['answer'] : this.conversation['answer'],
                 user_rating: user_rating,
                 LLM: LLM
             };
