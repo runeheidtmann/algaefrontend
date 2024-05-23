@@ -22,20 +22,20 @@ export const useAuthStore = defineStore('auth', {
                     },
                     body: JSON.stringify({ username, password })
                 });
-        
+
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
-        
+
                 const data = await response.json();
                 this.accessToken = data.access;
                 this.refreshToken = data.refresh;
-        
+
                 localStorage.setItem('accessToken', this.accessToken);
                 localStorage.setItem('refreshToken', this.refreshToken);
-        
-                await this.fetchUserData();  // Ensure this method uses fetchWrapper for the API call
-        
+
+                await this.fetchUserData();
+
             } catch (error) {
                 console.error('Error during login:', error);
                 throw error;
@@ -50,35 +50,33 @@ export const useAuthStore = defineStore('auth', {
                     },
                     body: JSON.stringify({ username, first_name, last_name, email, password })
                 });
-        
+
                 if (!response.ok) {
                     const errorData = await response.json();
                     throw new Error(errorData.detail || 'Failed to sign up');
                 }
-        
+
                 const data = await response.json();
                 this.accessToken = data.access;
                 this.refreshToken = data.refresh;
-        
+
                 localStorage.setItem('accessToken', this.accessToken);
                 localStorage.setItem('refreshToken', this.refreshToken);
-        
+
                 console.log('Signup and login successful');
-        
-                await this.fetchUserData();  // Ensure this method uses fetchWrapper for the API call
-        
+
+                await this.fetchUserData();
+
             } catch (error) {
                 console.error('Error during signup:', error);
                 throw error;
             }
-        },        
-        
+        },
+
         async fetchUserData() {
             try {
                 const response = await fetchWrapper(`${baseURL}/api/userdata/`, {
                     method: 'GET',
-                    // No need to set the 'Authorization' header manually,
-                    // as fetchWrapper will handle it
                 });
 
                 if (!response.ok) {

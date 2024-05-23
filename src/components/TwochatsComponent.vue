@@ -79,7 +79,8 @@
                         class="text-primary text-caption"
                         style="cursor: pointer"
                       >
-                       ({{item[1][1].publication_date}})  {{ item[1][1].title.slice(0, 35) }}...</a
+                        ({{ item[1][1].publication_date }})
+                        {{ item[1][1].title.slice(0, 35) }}...</a
                       >
                     </div>
 
@@ -87,20 +88,37 @@
                     <v-dialog v-model="dialog" width="800">
                       <v-card v-if="activeItem">
                         <v-card-title>
-                         {{ activeItem[1][1].title }}
+                          {{ activeItem[1][1].title }}
                         </v-card-title>
                         <v-card-text>
-                          <b>Authors:</b><br/> {{ activeItem[1][1].authors }}
+                          <b>Authors:</b><br />
+                          {{ activeItem[1][1].authors }}
                         </v-card-text>
                         <v-card-text>
-                          <b>Text chunk:</b><br /> {{ activeItem[0][1] }}
+                          <b>Text chunk:</b><br />
+                          {{ activeItem[0][1] }}
                         </v-card-text>
                         <v-card-text>
-                         <b> Download source:</b><br />
-                          <a v-if="activeItem[1][1].source" :href="'https://algaefiles.ams3.digitaloceanspaces.com/' + activeItem[1][1].source" target="__blank"> {{ activeItem[1][1].title }}: page
-                            {{ activeItem[1][1].page }} </a>
-                          <a v-else :href="activeItem[1][1].URL" target="__blank"> {{ activeItem[1][1].title }} @
-                            {{ activeItem[1][1].authors }} </a>
+                          <b> Download source:</b><br />
+                          <a
+                            v-if="activeItem[1][1].source"
+                            :href="
+                              'https://algaefiles.ams3.digitaloceanspaces.com/' +
+                              activeItem[1][1].source
+                            "
+                            target="__blank"
+                          >
+                            {{ activeItem[1][1].title }}: page
+                            {{ activeItem[1][1].page }}
+                          </a>
+                          <a
+                            v-else
+                            :href="activeItem[1][1].URL"
+                            target="__blank"
+                          >
+                            {{ activeItem[1][1].title }} @
+                            {{ activeItem[1][1].authors }}
+                          </a>
                         </v-card-text>
                         <v-card-actions>
                           <v-spacer></v-spacer>
@@ -124,7 +142,7 @@
         </v-col>
       </v-row>
 
-      <!-- Second row with a fixed height -->
+  
       <v-row class="h-20">
         <v-col cols="12" class="d-flex justify-center align-self-end">
           <v-textarea
@@ -176,20 +194,20 @@ export default {
       this.loading = false;
     },
     resetState() {
-      this.appStore.resetConversation(); // Assuming this method resets your state
+      this.appStore.resetConversation();
     },
     openDialog(index) {
       this.activeItemIndex = index;
-      this.dialog = true; // Open the dialog
+      this.dialog = true;
     },
     closeDialog() {
-      this.dialog = false; // Close the dialog
+      this.dialog = false;
     },
   },
 
   beforeRouteLeave(to, from, next) {
-    this.resetState(); // Call the reset state method
-    next(); // Proceed with the route navigation
+    this.resetState();
+    next();
   },
   created() {
     this.appStore = useAppStore();
@@ -218,7 +236,6 @@ export default {
       try {
         const user = this.authStore.userData;
 
-        // Ensure both first name and last name are provided and they are strings.
         if (
           typeof user.first_name !== "string" ||
           typeof user.last_name !== "string"
@@ -229,14 +246,13 @@ export default {
         let first_name_letter = user.first_name.charAt(0);
         let last_name_letter = user.last_name.charAt(0);
 
-        // Check if either initial is missing.
         if (!first_name_letter || !last_name_letter) {
           throw new Error("Missing initials");
         }
 
         return first_name_letter + last_name_letter;
       } catch (error) {
-        // If any error occurs, return "US"
+        
         return "US";
       }
     },
@@ -256,11 +272,11 @@ export default {
 .text-input {
   width: 75%;
 }
-/* Custom margin classes */
+
 .mr-space {
-  margin-right: 20px; /* Adjust the space as needed */
+  margin-right: 20px; 
 }
 .ml-space {
-  margin-left: 20px; /* Adjust the space as needed */
+  margin-left: 20px; 
 }
 </style>

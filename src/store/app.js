@@ -10,6 +10,7 @@ export const useAppStore = defineStore('appStore', {
         conversation: {},
         rag_conversation: {},
     }),
+
     actions: {
         async sendChatQuery(question) {
             // Initialize the conversation with the question and an empty answer
@@ -21,7 +22,7 @@ export const useAppStore = defineStore('appStore', {
                 const formData = new FormData();
                 formData.append('question', question);
         
-                // First API call to /api/chat/
+                // API call to /api/chat/
                 const chatResponse = await fetchWrapper(`${baseURL}/api/chat/`, {
                     method: 'POST',
                     body: formData
@@ -35,10 +36,10 @@ export const useAppStore = defineStore('appStore', {
                 // Parse the response data from the first endpoint
                 const chatData = await chatResponse.json();
         
-                // Second API call to /api/ragchat with the same question
+                // API call to /api/ragchat with the same question
                 const ragchatResponse = await fetchWrapper(`${baseURL}/api/ragchat/`, {
                     method: 'POST',
-                    body: formData // Reusing the FormData object
+                    body: formData 
                 });
         
                 // Check if the ragchat response is ok, otherwise throw an error
@@ -49,9 +50,8 @@ export const useAppStore = defineStore('appStore', {
                 // Parse the response data from the second endpoint
                 const ragchatData = await ragchatResponse.json();
                 console.log(ragchatData)
-                // Optional: Decide how to combine or choose between the responses
-                // For this example, we'll just store the chatData as the conversation.
-                // You might want to merge the responses or choose one based on some criteria.
+                
+                // Save the responses in store
                 this.rag_conversation = ragchatData;
                 this.conversation = chatData;
                 
@@ -63,11 +63,21 @@ export const useAppStore = defineStore('appStore', {
         },
         async sendEvaluation(user_rating, LLM) {
 
+            // Save data in object
             const evaluationData = {
+                // Question
                 user_question_raw: this.conversation['question'],
+                
+                // Save context if it is the RAG conversation.
                 user_question_enriched: LLM == 2 ? this.rag_conversation['prompt'] : 'Not enriched',
+                
+                // Which LLM does it come from?
                 LLM_answer: LLM == 2 ? this.rag_conversation['answer'] : this.conversation['answer'],
+                
+                // Rating
                 user_rating: user_rating,
+                
+                // LLM number
                 LLM: LLM
             };
 

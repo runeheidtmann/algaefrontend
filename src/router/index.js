@@ -12,18 +12,13 @@ const routes = [
         path: '',
         name: 'Home',
         meta: { requiresAuth: true },
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
+  
         component: () => import(/* webpackChunkName: "home" */ '@/views/Home.vue'),
       },
       {
         path: '/tutorial',
         name: 'Tutorial',
         meta: { requiresAuth: true },
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
         component: () => import(/* webpackChunkName: "home" */ '@/components/TutorialComponent.vue'),
       },
     ],
@@ -37,27 +32,18 @@ const routes = [
         path: '',
         name: 'PublicHome',
         meta: { requiresUnauth: true },
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
         component: () => import(/* webpackChunkName: "home" */ '@/layouts/auth/Home.vue'),
       },
       {
         path: '/login',
         name: 'Login',
         meta: { requiresUnauth: true },
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
         component: () => import(/* webpackChunkName: "home" */ '@/layouts/auth/Login.vue'),
       },
       {
         path: '/signup',
         name: 'Signup',
         meta: { requiresUnauth: true },
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
         component: () => import(/* webpackChunkName: "home" */ '@/layouts/auth/Signup.vue'),
       },
     ],
