@@ -101,10 +101,10 @@
                         <v-card-text>
                           <b> Download source:</b><br />
                           <a
-                            v-if="activeItem[1][1].source"
+                            v-if="activeItem[1][1].file_name"
                             :href="
                               'https://algaefiles.ams3.digitaloceanspaces.com/' +
-                              activeItem[1][1].source
+                              activeItem[1][1].file_name
                             "
                             target="__blank"
                           >
