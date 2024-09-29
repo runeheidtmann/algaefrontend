@@ -63,7 +63,7 @@
                 <div class="mr-5">AB</div>
                 <div>
                   <div class="font-weight-medium">AlgaeBrain</div>
-                  <div class="mb-4">
+                  <div class="mb-4"  style="white-space: pre-line;">
                     {{ rag_conversation.answer }}
                     <br />
                   </div>
