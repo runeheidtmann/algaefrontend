@@ -63,7 +63,7 @@
                 <div class="mr-5">AB</div>
                 <div>
                   <div class="font-weight-medium">AlgaeBrain</div>
-                  <div class="mb-4"  style="white-space: pre-line;">
+                  <div class="mb-4" style="white-space: pre-line">
                     {{ rag_conversation.answer }}
                     <br />
                   </div>
@@ -75,13 +75,14 @@
                       :key="index"
                     >
                       <a
+                        v-if="item[1][1].publication_date"
                         @click="openDialog(index)"
                         class="text-primary text-caption"
                         style="cursor: pointer"
                       >
                         ({{ item[1][1].publication_date }})
-                        {{ item[1][1].title.slice(0, 35) }}...</a
-                      >
+                        {{ item[1][1].title.slice(0, 35) }}...
+                      </a>
                     </div>
 
                     <!-- Dialog -->
@@ -142,7 +143,6 @@
         </v-col>
       </v-row>
 
-  
       <v-row class="h-20">
         <v-col cols="12" class="d-flex justify-center align-self-end">
           <v-textarea
@@ -252,7 +252,6 @@ export default {
 
         return first_name_letter + last_name_letter;
       } catch (error) {
-        
         return "US";
       }
     },
@@ -274,9 +273,9 @@ export default {
 }
 
 .mr-space {
-  margin-right: 20px; 
+  margin-right: 20px;
 }
 .ml-space {
-  margin-left: 20px; 
+  margin-left: 20px;
 }
 </style>
