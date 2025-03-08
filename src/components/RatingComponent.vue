@@ -26,7 +26,7 @@ export default {
   name: "RatingComponent",
   props: {
     LLM: {
-      type: Object, // Assuming LLM is an object, change this type as needed
+      type: Number, // Assuming LLM is an object, change this type as needed
       required: true,
     },
   },

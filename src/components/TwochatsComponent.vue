@@ -4,45 +4,7 @@
       <!-- Adjusted main section content -->
       <!-- First row with 2 columns each containing a card -->
       <v-row class="h-80 w-100 justify-space-between">
-        <v-col cols="6" class="d-flex flex-column">
-          <div v-if="conversation.question">
-            <v-card
-              class="flex-grow-1 rounded-card bg-grey-lighten-3 pa-7 mr-5"
-            >
-              <div class="d-flex w-100 mb-5 text-body-1">
-                <div class="mr-5">{{ user_initials }}</div>
-                <div>
-                  <div class="font-weight-medium">You</div>
-                  <div>
-                    {{ conversation.question }}
-                  </div>
-                </div>
-              </div>
-              <div
-                v-if="conversation.answer"
-                class="d-flex w-100 mb-5 text-body-1"
-              >
-                <div class="mr-5">AI</div>
-                <div>
-                  <div class="font-weight-medium">ChatGPT</div>
-                  <div>
-                    {{ conversation.answer }}
-                    <br />
-                  </div>
-
-                  <RatingComponent :LLM="1" />
-                </div>
-              </div>
-              <div v-else>
-                <v-progress-linear
-                  indeterminate
-                  color="yellow-darken-2"
-                ></v-progress-linear>
-              </div>
-            </v-card>
-          </div>
-        </v-col>
-        <v-col cols="6" class="d-flex flex-column">
+        <v-col cols="12" class="d-flex flex-column">
           <div v-if="rag_conversation.question">
             <v-card
               class="flex-grow-1 rounded-card bg-grey-lighten-3 pa-7 ml-5"
@@ -98,28 +60,6 @@
                         <v-card-text>
                           <b>Text chunk:</b><br />
                           {{ activeItem[0][1] }}
-                        </v-card-text>
-                        <v-card-text>
-                          <b> Download source:</b><br />
-                          <a
-                            v-if="activeItem[1][1].file_name"
-                            :href="
-                              'https://algaefiles.ams3.digitaloceanspaces.com/' +
-                              activeItem[1][1].file_name
-                            "
-                            target="__blank"
-                          >
-                            {{ activeItem[1][1].title }}: page
-                            {{ activeItem[1][1].page }}
-                          </a>
-                          <a
-                            v-else
-                            :href="activeItem[1][1].URL"
-                            target="__blank"
-                          >
-                            {{ activeItem[1][1].title }} @
-                            {{ activeItem[1][1].authors }}
-                          </a>
                         </v-card-text>
                         <v-card-actions>
                           <v-spacer></v-spacer>
@@ -219,12 +159,6 @@ export default {
         return this.rag_conversation.docs.context[this.activeItemIndex];
       }
       return null;
-    },
-    conversation() {
-      if (this.appStore) {
-        return this.appStore.conversation;
-      }
-      return {};
     },
     rag_conversation() {
       if (this.appStore) {
