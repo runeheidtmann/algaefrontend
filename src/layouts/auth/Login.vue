@@ -26,7 +26,7 @@
         Password
 
         <a
-          class="text-caption text-decoration-none text-blue"
+          class="text-caption text-decoration-none text-col-purple"
           href="#"
           rel="noopener noreferrer"
           target="_blank"
@@ -56,8 +56,7 @@
       <v-btn
         @click="handleLogin"
         block
-        class="mt-12 mb-8"
-        color="blue"
+        class="mt-12 mb-8 text-col-purple"
         size="large"
         variant="tonal"
       >
@@ -65,7 +64,7 @@
       </v-btn>
 
       <v-card-text class="text-center">
-        <router-link to="/signup" style="text-decoration: none">
+        <router-link to="/signup" class="text-col-purple" style="text-decoration: none">
           Sign up now <v-icon icon="mdi-chevron-right"></v-icon>
         </router-link>
       </v-card-text>
@@ -111,4 +110,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.text-col-purple{
+  color: #781847
+}
+</style>

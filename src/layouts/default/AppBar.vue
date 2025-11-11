@@ -1,15 +1,15 @@
 <template>
-  <v-app-bar flat class="bg-grey-darken-4">
-    <v-app-bar-title>
-      <v-icon icon="mdi-alpha" />
+  <v-app-bar flat class="bgcol">
+    <v-app-bar-title class="text-white">
+      <img src="@/assets/APB-logo-white.png" alt="AlgaeBrain Logo" style="height: 32px; margin-right: 8px;" />
 
-      AlgaeBrain
+      Algae Knowledge Database Chat
       
   
     </v-app-bar-title>
           <template v-slot:append>
             <div v-if="authStore.isLoggedIn">
-            <v-btn color="white" @click="handleLogout">Logout</v-btn>
+            <v-btn class="logout-btn" color="white" @click="handleLogout">Logout</v-btn>
             </div>
       </template>
 
@@ -32,3 +32,18 @@ export default {
 }
 };
 </script>
+
+<style scoped>
+.bgcol{
+  background-color: #5F7A2F !important;
+}
+.text-col-purple{
+  color: #781847
+}
+
+/* Logout button styling to match signup button */
+.logout-btn {
+  background-color: #781847 !important;
+  color: white !important;
+}
+</style>

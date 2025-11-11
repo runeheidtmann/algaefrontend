@@ -3,7 +3,7 @@
     permanent
     floating
     border="false"
-    class="bg-grey-darken-4"
+    class="bgcolor-green"
   >
     <template v-slot:append>
       <v-list-item
@@ -82,6 +82,28 @@ export default {
 <style scoped>
 .routerlink {
   text-decoration: none;
-  color: inherit;
+  color: white !important;
+}
+.bgcolor-green{
+ background-color: #2A4200 !important
+}
+
+/* Make all navigation drawer content white */
+.v-navigation-drawer {
+  color: white !important;
+}
+
+/* Make list items and icons white */
+.v-list-item {
+  color: white !important;
+}
+
+.v-list-item .v-icon {
+  color: white !important;
+}
+
+/* Make user info white */
+.v-list-item[subtitle] {
+  color: white !important;
 }
 </style>

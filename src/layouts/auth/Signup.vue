@@ -73,8 +73,8 @@
       <v-btn
         @click="handleSignup"
         block
-        class="mt-12 mb-8"
-        color="blue"
+        class="mt-12 mb-8 text-col-purple"
+        
         size="large"
         variant="tonal"
       >
@@ -123,4 +123,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.text-col-purple{
+  color: #781847
+}
+</style>
