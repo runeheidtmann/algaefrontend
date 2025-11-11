@@ -6,13 +6,19 @@
     class="bgcolor-green"
   >
     <template v-slot:append>
-      <v-list-item
-        lines="two"
-        prepend-icon="mdi-account-outline"
-        subtitle="Logged in"
-      >
-        {{ userData?.username }}</v-list-item
-      >
+      <div class="pa-4">
+        <div class="mb-4">
+          <v-img
+            src="https://algaeprobanos.eu/wp-content/uploads/2023/09/EN_Co-fundedbytheEU_RGB_NEG.png"
+            alt="Co-funded by the EU"
+            max-width="150"
+          />
+        </div>
+        <v-divider color="white" class="mb-3"></v-divider>
+        <p class="text-white text-caption">
+          Accelerating algae product development in the Baltic and North Sea
+        </p>
+      </div>
     </template>
 
     <v-divider class="border-0"></v-divider>
