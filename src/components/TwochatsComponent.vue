@@ -32,18 +32,34 @@
                   <div>
                     <!-- Iterating over the array to create links -->
                     <p class="text-caption">References:</p>
+                    <!-- Vector chunks -->
                     <div
-                      v-for="(item, index) in rag_conversation.docs.context"
-                      :key="index"
+                      v-for="(item, index) in vectorChunks"
+                      :key="'vector-' + index"
                     >
                       <a
-                        v-if="item[1][1].publication_date"
-                        @click="openDialog(index)"
+                        v-if="item.metadata.publication_date"
+                        @click="openDialog('vector', index)"
                         class="text-primary text-caption"
                         style="cursor: pointer"
                       >
-                        ({{ item[1][1].publication_date }})
-                        {{ item[1][1].title.slice(0, 35) }}...
+                        ({{ item.metadata.publication_date }})
+                        {{ item.metadata.title.slice(0, 35) }}...
+                      </a>
+                    </div>
+                    <!-- Graph chunks -->
+                    <div
+                      v-for="(item, index) in graphChunks"
+                      :key="'graph-' + index"
+                    >
+                      <a
+                        v-if="item.metadata && item.metadata.publication_date"
+                        @click="openDialog('graph', index)"
+                        class="text-primary text-caption"
+                        style="cursor: pointer"
+                      >
+                        ({{ item.metadata.publication_date }})
+                        {{ item.metadata.title.slice(0, 35) }}...
                       </a>
                     </div>
 
@@ -51,15 +67,27 @@
                     <v-dialog v-model="dialog" width="800">
                       <v-card v-if="activeItem">
                         <v-card-title>
-                          {{ activeItem[1][1].title }}
+                          {{ activeItem.metadata.title }}
                         </v-card-title>
                         <v-card-text>
                           <b>Authors:</b><br />
-                          {{ activeItem[1][1].authors }}
+                          {{ activeItem.metadata.authors }}
+                        </v-card-text>
+                        <v-card-text>
+                          <b>Publication Date:</b><br />
+                          {{ activeItem.metadata.publication_date }}
+                        </v-card-text>
+                        <v-card-text>
+                          <b>File Name:</b><br />
+                          {{ activeItem.metadata.file_name }}
+                        </v-card-text>
+                        <v-card-text>
+                          <b>Page:</b><br />
+                          {{ activeItem.metadata.page }}
                         </v-card-text>
                         <v-card-text>
                           <b>Text chunk:</b><br />
-                          {{ activeItem[0][1] }}
+                          {{ activeItem.page_content }}
                         </v-card-text>
                         <v-card-actions>
                           <v-spacer></v-spacer>
@@ -119,6 +147,7 @@ export default {
       authStore: null,
       dialog: false,
       activeItemIndex: null,
+      activeItemType: null,
     };
   },
   methods: {
@@ -136,7 +165,8 @@ export default {
     resetState() {
       this.appStore.resetConversation();
     },
-    openDialog(index) {
+    openDialog(type, index) {
+      this.activeItemType = type;
       this.activeItemIndex = index;
       this.dialog = true;
     },
@@ -155,10 +185,20 @@ export default {
   },
   computed: {
     activeItem() {
-      if (this.activeItemIndex !== null) {
-        return this.rag_conversation.docs.context[this.activeItemIndex];
+      if (this.activeItemIndex !== null && this.activeItemType) {
+        if (this.activeItemType === 'vector') {
+          return this.vectorChunks[this.activeItemIndex];
+        } else if (this.activeItemType === 'graph') {
+          return this.graphChunks[this.activeItemIndex];
+        }
       }
       return null;
+    },
+    vectorChunks() {
+      return this.rag_conversation?.docs_expanded?.vector_chunks || [];
+    },
+    graphChunks() {
+      return this.rag_conversation?.docs_expanded?.graph_chunks || [];
     },
     rag_conversation() {
       if (this.appStore) {
