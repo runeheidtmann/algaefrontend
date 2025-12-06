@@ -1,5 +1,6 @@
 import fetchWrapper from '@/helpers/fetchWrapper';
 import { defineStore } from 'pinia';
+import { useAppStore } from './app';
 
 const baseURL = import.meta.env.VITE_API_BASE_URL
 
@@ -95,6 +96,10 @@ export const useAuthStore = defineStore('auth', {
             localStorage.removeItem('refreshToken');
             this.accessToken = null;
             this.refreshToken = null;
+            
+            // Clear app store state
+            const appStore = useAppStore();
+            appStore.resetState();
         },
     },
 });

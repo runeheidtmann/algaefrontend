@@ -15,12 +15,6 @@ const routes = [
   
         component: () => import(/* webpackChunkName: "home" */ '@/views/Home.vue'),
       },
-      {
-        path: '/tutorial',
-        name: 'Tutorial',
-        meta: { requiresAuth: true },
-        component: () => import(/* webpackChunkName: "home" */ '@/components/TutorialComponent.vue'),
-      },
     ],
   },
   {

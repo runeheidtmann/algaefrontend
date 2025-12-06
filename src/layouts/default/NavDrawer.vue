@@ -21,30 +21,20 @@
       </div>
     </template>
 
-    <v-divider class="border-0"></v-divider>
-
-    <v-list density="compact" nav>
-      <router-link to="/" class="routerlink"
-        ><v-list-item
-          prepend-icon="mdi-forum"
-          title="Algae chat"
-          value="Algue Chat"
-        ></v-list-item
-      ></router-link>
-      <router-link to="/tutorial" class="routerlink"
-        ><v-list-item
-          prepend-icon="mdi-help-circle"
-          title="Tutorial"
-          value="Tutorial"
-        ></v-list-item
-      ></router-link>
-    </v-list>
+    <!-- Chat List fills available space -->
+    <div class="nav-drawer-content">
+      <ChatListComponent />
+    </div>
   </v-navigation-drawer>
 </template>
 <script>
 import { useAuthStore } from "@/store/authStore";
+import ChatListComponent from "@/components/ChatListComponent.vue";
 
 export default {
+  components: {
+    ChatListComponent,
+  },
   data: () => ({
     username: "",
     first_name: null,
@@ -90,8 +80,15 @@ export default {
   text-decoration: none;
   color: white !important;
 }
-.bgcolor-green{
- background-color: #2A4200 !important
+.bgcolor-green {
+  background-color: #2A4200 !important;
+}
+
+.nav-drawer-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
 }
 
 /* Make all navigation drawer content white */
