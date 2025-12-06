@@ -77,7 +77,7 @@
                     variant="outlined"
                   >
                     <v-icon start size="14">mdi-file-document</v-icon>
-                    {{ item.metadata.title.slice(0, 40) }}...
+                    {{ (item.metadata?.title || 'Untitled').slice(0, 40) }}...
                   </v-chip>
                   
                   <!-- Graph chunks -->
@@ -90,7 +90,7 @@
                     variant="outlined"
                   >
                     <v-icon start size="14">mdi-graph</v-icon>
-                    {{ item.metadata.title.slice(0, 40) }}...
+                    {{ (item.metadata?.title || 'Untitled').slice(0, 40) }}...
                   </v-chip>
                 </div>
               </div>
