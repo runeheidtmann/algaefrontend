@@ -1,5 +1,6 @@
 // fetchWrapper.js
 import { useAuthStore } from '@/store/authStore';
+import router from '@/router';
 
 function parseJwt(token) {
     try {
@@ -47,16 +48,35 @@ async function refreshAccessToken(refreshToken) {
     }
 }
 
+// Helper function to handle session expiration
+function handleSessionExpired() {
+    const authStore = useAuthStore();
+    authStore.logout();
+    router.push({ name: 'Login' });
+}
+
 async function fetchWrapper(url, options = {}) {
     const authStore = useAuthStore();
 
+    // If refresh token is expired, logout and redirect immediately
+    if (isTokenExpired(authStore.refreshToken)) {
+        handleSessionExpired();
+        throw new Error('Session expired. Please login again.');
+    }
+
     if (isTokenExpired(authStore.accessToken)) {
-        const newAccessToken = await refreshAccessToken(authStore.refreshToken);
-        if (newAccessToken) {
-            authStore.accessToken = newAccessToken;
-            localStorage.setItem('accessToken', newAccessToken);
-        } else {
-            throw new Error('Unable to refresh access token');
+        try {
+            const newAccessToken = await refreshAccessToken(authStore.refreshToken);
+            if (newAccessToken) {
+                authStore.accessToken = newAccessToken;
+                localStorage.setItem('accessToken', newAccessToken);
+            } else {
+                handleSessionExpired();
+                throw new Error('Unable to refresh access token');
+            }
+        } catch (error) {
+            handleSessionExpired();
+            throw new Error('Session expired. Please login again.');
         }
     }
 
@@ -66,14 +86,20 @@ async function fetchWrapper(url, options = {}) {
     let response = await fetch(url, options);
 
     if (response.status === 401) {
-        const newAccessToken = await refreshAccessToken(authStore.refreshToken);
-        if (newAccessToken) {
-            authStore.accessToken = newAccessToken;
-            localStorage.setItem('accessToken', newAccessToken);
-            options.headers['Authorization'] = `Bearer ${newAccessToken}`;
-            response = await fetch(url, options);
-        } else {
-            throw new Error('Unable to refresh access token');
+        try {
+            const newAccessToken = await refreshAccessToken(authStore.refreshToken);
+            if (newAccessToken) {
+                authStore.accessToken = newAccessToken;
+                localStorage.setItem('accessToken', newAccessToken);
+                options.headers['Authorization'] = `Bearer ${newAccessToken}`;
+                response = await fetch(url, options);
+            } else {
+                handleSessionExpired();
+                throw new Error('Unable to refresh access token');
+            }
+        } catch (error) {
+            handleSessionExpired();
+            throw new Error('Session expired. Please login again.');
         }
     }
 

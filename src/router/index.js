@@ -56,6 +56,15 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const authStore = useAuthStore();
+  
+  // Check if session is expired (refresh token expired)
+  if (authStore.isLoggedIn && !authStore.isSessionValid) {
+    // Session expired - logout and redirect to login
+    authStore.logout();
+    next({ name: 'Login' });
+    return;
+  }
+
   const isAuthenticated = authStore.isLoggedIn;
 
   if (to.matched.some(record => record.meta.requiresAuth) && !isAuthenticated) {

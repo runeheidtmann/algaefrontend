@@ -4,14 +4,49 @@ import { useAppStore } from './app';
 
 const baseURL = import.meta.env.VITE_API_BASE_URL
 
+// Helper to check if a JWT token is expired
+function isTokenExpired(token) {
+    if (!token) return true;
+    try {
+        const base64Url = token.split('.')[1];
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        const jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+        const payload = JSON.parse(jsonPayload);
+        const currentTime = Math.floor(Date.now() / 1000);
+        return payload.exp < currentTime;
+    } catch (error) {
+        return true; // If we can't parse it, consider it expired
+    }
+}
+
+// Clear tokens if refresh token is expired on startup
+function getValidToken(key) {
+    const token = localStorage.getItem(key);
+    // For refresh token, check if it's expired - if so, clear everything
+    if (key === 'refreshToken' && isTokenExpired(token)) {
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        return null;
+    }
+    return token;
+}
+
 export const useAuthStore = defineStore('auth', {
     state: () => ({
-        accessToken: localStorage.getItem('accessToken') || null,
-        refreshToken: localStorage.getItem('refreshToken') || null,
+        // Check refresh token validity on startup - if expired, user must login again
+        accessToken: getValidToken('refreshToken') ? localStorage.getItem('accessToken') : null,
+        refreshToken: getValidToken('refreshToken'),
         userData: { username: '', }
     }),
     getters: {
-        isLoggedIn: (state) => !!state.accessToken,
+        isLoggedIn: (state) => !!state.accessToken && !!state.refreshToken,
+        // New getter to check if session is still valid
+        isSessionValid: (state) => {
+            if (!state.refreshToken) return false;
+            return !isTokenExpired(state.refreshToken);
+        },
     },
     actions: {
         async login(username, password) {
