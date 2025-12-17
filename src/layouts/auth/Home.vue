@@ -10,16 +10,11 @@
               <v-img
                 :width="800"
                 cover
-                src="/algae2.jpg"
+                src="/newfront.png"
                 class="mb-5"
+                style="mix-blend-mode: multiply;"
               ></v-img>
-              <h2 class="text-h2 text-col-purple">Try chatting with your research</h2>
-
-              <p class="mt-3 text-h6 text-col-purple">
-                This is a domain specific chatbot. It was created for
-                Algae researchers to be able to find relevant answers to their
-                everyday questions much quicker.
-              </p>
+            
             </v-responsive>
           </v-container>
         </v-sheet>

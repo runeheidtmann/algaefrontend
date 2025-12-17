@@ -181,10 +181,6 @@
               <div class="metadata-value">{{ activeItem.metadata.publication_date }}</div>
             </div>
             <div class="metadata-item">
-              <div class="metadata-label">File Name</div>
-              <div class="metadata-value">{{ activeItem.metadata.file_name }}</div>
-            </div>
-            <div class="metadata-item">
               <div class="metadata-label">Page</div>
               <div class="metadata-value">{{ activeItem.metadata.page }}</div>
             </div>
