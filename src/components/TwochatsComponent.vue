@@ -337,10 +337,24 @@ export default {
       return null;
     },
     vectorChunks() {
-      return this.rag_conversation?.docs_expanded?.vector_chunks || [];
+      const chunks = this.rag_conversation?.docs_expanded?.vector_chunks || [];
+      return chunks.filter((item, idx) => {
+        if (!item.page_content || item.page_content.length < 100) {
+          console.log(`Vector chunk at index ${idx} hidden due to short excerpt.`);
+          return false;
+        }
+        return true;
+      });
     },
     graphChunks() {
-      return this.rag_conversation?.docs_expanded?.graph_chunks || [];
+      const chunks = this.rag_conversation?.docs_expanded?.graph_chunks || [];
+      return chunks.filter((item, idx) => {
+        if (!item.page_content || item.page_content.length < 100) {
+          console.log(`Graph chunk at index ${idx} hidden due to short excerpt.`);
+          return false;
+        }
+        return true;
+      });
     },
     rag_conversation() {
       if (this.appStore) {
