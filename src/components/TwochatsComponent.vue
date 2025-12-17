@@ -80,7 +80,7 @@
                     {{ (item.metadata?.title || 'Untitled').slice(0, 40) }}...
                   </v-chip>
                   
-                  <!-- Graph chunks -->
+                  <!-- Graph chunks
                   <v-chip
                     v-for="(item, index) in graphChunks"
                     :key="'graph-' + index"
@@ -91,7 +91,7 @@
                   >
                     <v-icon start size="14">mdi-graph</v-icon>
                     {{ (item.metadata?.title || 'Untitled').slice(0, 40) }}...
-                  </v-chip>
+                  </v-chip> -->
                 </div>
               </div>
 
