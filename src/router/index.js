@@ -40,6 +40,18 @@ const routes = [
         meta: { requiresUnauth: true },
         component: () => import(/* webpackChunkName: "home" */ '@/layouts/auth/Signup.vue'),
       },
+      {
+        path: '/forgot-password',
+        name: 'ForgotPassword',
+        meta: { requiresUnauth: true },
+        component: () => import(/* webpackChunkName: "home" */ '@/layouts/auth/ForgotPassword.vue'),
+      },
+      {
+        path: '/reset-password',
+        name: 'ResetPassword',
+        meta: { requiresUnauth: true },
+        component: () => import(/* webpackChunkName: "home" */ '@/layouts/auth/ResetPassword.vue'),
+      },
     ],
   },
   {

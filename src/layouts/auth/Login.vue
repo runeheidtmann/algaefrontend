@@ -25,14 +25,12 @@
       >
         Password
 
-        <a
+        <router-link
+          to="/forgot-password"
           class="text-caption text-decoration-none text-col-purple"
-          href="#"
-          rel="noopener noreferrer"
-          target="_blank"
         >
-          Forgot login password?</a
-        >
+          Forgot login password?
+        </router-link>
       </div>
 
       <v-text-field
